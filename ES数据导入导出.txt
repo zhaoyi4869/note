@@ -1,0 +1,16 @@
+ES数据导入导出：
+导出：
+	curl -XGET ip:port/index/type/_search?from=0&size=10000  此处导出10000行数据
+
+导入：先将提出来的数据
+[{"_index":"zipkin_2018.08.24","_type":"jty_microservice_log","_id":"AWVq9MFRV9j8LejhM58L","_score":1.0,"_source":{"indexTime":"2018-08-24T16:02:29.829+08:00","measures":{"duration":12575},"normalFields":{"traceId":"2840045838270464","N_pkg":"","code":"0","session":"729eb5111f47adc9c1736096aa42b5a02aa62fd2c8993f52baf46bf4","annotations":"[{\"value\":\"sr\",\"timestamp\":1535096383325000},{\"value\":\"ss\",\"timestamp\":1535096383337000}]","logchecktime":"2018-08-24T16:02:27.015+08:00","pkg":"0","version":"1","parentId":"2840045838270464","userCode":"2344436636615680","spanid":"2840045838286848","H_pkg":"","hwID":"866716032400057"},"offset":0,"deserializerTime":"2018-08-24T16:02:27.021+08:00","logTypeName":"jty_microservice_log","source":"","timestamp":"2018-08-24T15:39:43.339+08:00","dimensions":{"appprogramname":"DVJTY4-WBIZ113_50003","hostname":"DVJTY4-WBIZ113","servicecode":"jty4_zipkin","method":"checkIDValid","clustername":"东莞","appsystem":"JTY4","servicename":"金太阳微服务业务办理biz","className":"com.guosen.gsbp.service.GsbpService”}}},…]
+转换成
+{"index":{"_id":"AWVq9MFRV9j8LejhM58L"}}
+{"indexTime":"2018-08-24T16:02:29.829+08:00","measures":{"duration":12575},"normalFields":{"traceId":"2840045838270464","N_pkg":"","code":"0","session":"729eb5111f47adc9c1736096aa42b5a02aa62fd2c8993f52baf46bf4","annotations":"[{\"value\":\"sr\",\"timestamp\":1535096383325000},{\"value\":\"ss\",\"timestamp\":1535096383337000}]","logchecktime":"2018-08-24T16:02:27.015+08:00","pkg":"0","version":"1","parentId":"2840045838270464","userCode":"2344436636615680","spanid":"2840045838286848","H_pkg":"","hwID":"866716032400057"},"offset":0,"deserializerTime":"2018-08-24T16:02:27.021+08:00","logTypeName":"jty_microservice_log","source":"","timestamp":"2018-08-24T15:39:43.339+08:00","dimensions":{"appprogramname":"DVJTY4-WBIZ113_50003","hostname":"DVJTY4-WBIZ113","servicecode":"jty4_zipkin","method":"checkIDValid","clustername":"东莞","appsystem":"JTY4","servicename":"金太阳微服务业务办理biz","className":"com.guosen.gsbp.service.GsbpService"}}
+这种格式的txt文件
+然后在测试环境的机器上输入如下指令：
+curl -XPOST 'http://192.168.1.152:9200/jzjy_2018.11.02/jzjy_microservice_log/_bulk?pretty' --data-binary '@jzjy1102.txt'
+然后就可以批量导入了
+
+上面的命令是es5.2.4 下面的命令用于es6.3.1导入
+curl  -H "Content-Type: application/json" -XPOST 'http://192.168.1.95:9200/jzjy_2018.11.02/jzjy_microservice_log/_bulk?pretty' --data-binary '@jzjy1102.txt'
