@@ -1,0 +1,16 @@
+filebeat 造数据
+      /zork/filebeat-6.4.0-linux-x86_64
+			rm -rf data/*
+			./filebeat -e -c onesyslog.yml
+
+启动logstash
+      查看在logstash 未启动时 执行 ./bin/logstash -f config/onesyslog.conf
+
+查看kafka的topic 
+在Kafka 的bin目录下执行：   ./kafka-topics.sh --list --zookeeper localhost:2181
+创建topic：
+./kafka-topics.sh --zookeeper hostname:port --create --partitions 2 --replication-factor 1 --topic topictest
+kafka生产：
+./bin/kafka-console-producer.sh --broker-list hostname:port --topic opictest --producer.config /root/kerberos/producer.properties
+kafka消费：
+./bin/kafka-console-consumer.sh --bootstrap-server hostname:port --topic opictest --consumer.config /root/kerberos/consumer.properties
