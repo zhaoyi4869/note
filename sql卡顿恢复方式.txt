@@ -1,0 +1,11 @@
+sql卡顿 恢复方式
+
+select id, db, user, host, command, time, state, info
+from information_schema.processlist
+where command != 'Sleep'
+order by time desc;
+select * from information_schema.innodb_trx;
+
+KILL  39903;
+
+SELECT * FROM  smartdata_manager.TBL_APPCOMPENTS;
